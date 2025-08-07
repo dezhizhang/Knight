@@ -13,16 +13,20 @@ public class PlayerController : MonoBehaviour
     private float _moveX;
     private float _moveY;
 
+    private int _moveChangeAnim;
+    private Animator _animator;
+
     // 角色移动逗度
     private float _moveSpeed = 10.0f;
 
     // 刚体组件
     private Rigidbody2D _rb;
-    
+
     private void Start()
     {
         // 获取刚体组件
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
 
@@ -42,6 +46,22 @@ public class PlayerController : MonoBehaviour
         // 获取垂直方向
         _moveY = Input.GetAxis("Vertical");
         _rb.velocity = new Vector2(_moveX * _moveSpeed, _rb.velocity.y);
+
+        if (_moveX > 0)
+        {
+            _moveChangeAnim = 1;
+        }
+        else if (_moveX < 0)
+        {
+            _moveChangeAnim = -1;
+        }
+        else
+        {
+            _moveChangeAnim = 0;
+        }
+
+        // 动画参数设置
+        _animator.SetInteger("Movemont", _moveChangeAnim);
     }
 
     private void Direction()
